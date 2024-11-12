@@ -13,7 +13,7 @@ version = "0.1.4"
 edition = "2021"
 
 [workspace.dependencies]
-substreams = "^0.5.0"
+substreams = "0.5.0"
 substreams-solana = "0.14.0"
 substreams-solana-utils = { git = "https://github.com/infra403/substreams-solana-utils"  }
 prost = "0.11"
