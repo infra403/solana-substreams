@@ -1,7 +1,6 @@
 use anyhow::{anyhow, Context, Error};
 
 use substreams_solana::pb::sf::solana::r#type::v1::ConfirmedTransaction;
-use substreams_solana::pb::sf::solana::r#type::v1::Block;
 
 use substreams_solana_utils as utils;
 use utils::instruction::{get_structured_instructions, StructuredInstruction, StructuredInstructions};
@@ -12,25 +11,6 @@ use utils::pubkey::Pubkey;
 pub mod pb;
 use pb::spl_token::*;
 use pb::spl_token::spl_token_event::Event;
-
-#[substreams::handlers::map]
-fn spl_token_events(block: Block) -> Result<SplTokenBlockEvents, Error> {
-    Ok(SplTokenBlockEvents { transactions: parse_block(&block)? })
-}
-
-pub fn parse_block(block: &Block) -> Result<Vec<SplTokenTransactionEvents>, Error> {
-    let mut transactions_events: Vec<SplTokenTransactionEvents> = Vec::new();
-    for transaction in block.transactions() {
-        let events = parse_transaction(transaction)?;
-        if !events.is_empty() {
-            transactions_events.push(SplTokenTransactionEvents {
-                signature: utils::transaction::get_signature(&transaction),
-                events
-            })
-        }
-    }
-    Ok(transactions_events)
-}
 
 pub fn parse_transaction(transaction: &ConfirmedTransaction) -> Result<Vec<SplTokenEvent>, Error> {
     if let Some(_) = transaction.meta.as_ref().unwrap().err {

@@ -14,27 +14,6 @@ pub mod pb;
 use pb::system_program::*;
 use pb::system_program::system_program_event::Event;
 
-#[substreams::handlers::map]
-fn system_program_events(block: Block) -> Result<SystemProgramBlockEvents, Error> {
-    let transactions = parse_block(&block)?;
-    Ok(SystemProgramBlockEvents { slot: block.slot, transactions })
-}
-
-pub fn parse_block(block: &Block) -> Result<Vec<SystemProgramTransactionEvents>, Error> {
-    let mut block_events: Vec<SystemProgramTransactionEvents> = Vec::new();
-    for (i, transaction) in block.transactions.iter().enumerate() {
-        let events = parse_transaction(transaction)?;
-        if !events.is_empty() {
-            block_events.push(SystemProgramTransactionEvents {
-                signature: utils::transaction::get_signature(transaction),
-                transaction_index: i as u32,
-                events,
-            });
-        }
-    }
-    Ok(block_events)
-}
-
 pub fn parse_transaction(transaction: &ConfirmedTransaction) -> Result<Vec<SystemProgramEvent>, Error> {
     if let Some(_) = transaction.meta.as_ref().unwrap().err {
         return Ok(Vec::new())
