@@ -21,7 +21,6 @@ pub mod pb;
 use pb::raydium_amm::*;
 use pb::raydium_amm::raydium_amm_event::Event;
 
-#[substreams::handlers::map]
 fn raydium_amm_events(block: Block) -> Result<RaydiumAmmBlockEvents, Error> {
     let transactions = parse_block(&block);
     Ok(RaydiumAmmBlockEvents { transactions })

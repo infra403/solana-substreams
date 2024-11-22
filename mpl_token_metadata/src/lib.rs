@@ -2,6 +2,7 @@
 
 use borsh::BorshDeserialize;
 use substreams::errors::Error;
+
 use substreams_solana::pb::sf::solana::r#type::v1::ConfirmedTransaction;
 use substreams_solana::pb::sf::solana::r#type::v1::Block;
 
@@ -17,7 +18,6 @@ pub mod pb;
 use pb::mpl_token_metadata::*;
 use pb::mpl_token_metadata::mpl_token_metadata_event::Event;
 
-#[substreams::handlers::map]
 fn mpl_token_metadata_events(block: Block) -> Result<MplTokenMetadataBlockEvents, Error> {
     let transactions = parse_block(&block);
     Ok(MplTokenMetadataBlockEvents { transactions })
