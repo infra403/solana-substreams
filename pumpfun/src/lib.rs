@@ -22,7 +22,7 @@ use pb::pumpfun::pumpfun_event::Event;
 
 use system_program_substream;
 
-fn pumpfun_events(block: Block) -> Result<PumpfunBlockEvents, Error> {
+pub fn pumpfun_events(block: Block) -> Result<PumpfunBlockEvents, Error> {
     let transactions = parse_block(&block)?;
     Ok(PumpfunBlockEvents { transactions })
 }
