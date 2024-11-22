@@ -171,7 +171,12 @@ fn _parse_buy_instruction<'a>(
     let user = instruction.accounts()[6].to_string();
     let token_amount = buy.amount;
 
-    let system_transfer_instruction = instruction.inner_instructions().iter().find(|x| x.program_id() == SYSTEM_PROGRAM_ID).unwrap().clone();
+    let system_transfer_instruction = instruction.inner_instructions()
+        .iter()
+        .find(|x| x.program_id() == SYSTEM_PROGRAM_ID)
+        .ok_or(anyhow::anyhow!("No instruction with program_id == SYSTEM_PROGRAM_ID found"))?
+        .clone();
+
     let system_transfer = system_program_substream::parse_transfer_instruction(system_transfer_instruction.as_ref(), context)?;
     let sol_amount = Some(system_transfer.lamports);
 
