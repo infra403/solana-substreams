@@ -847,7 +847,7 @@ dependencies = [
 [[package]]
 name = "substreams-solana-utils"
 version = "0.1.4"
-source = "git+https://github.com/infra403/substreams-solana-utils?rev=c4de15f7605bf747bc98ea785f5aa08924d5f914#c4de15f7605bf747bc98ea785f5aa08924d5f914"
+source = "git+https://github.com/infra403/substreams-solana-utils?rev=c2e40b8e16328eef5735d8ddadce923156d646aa#c2e40b8e16328eef5735d8ddadce923156d646aa"
 dependencies = [
  "anyhow",
  "base64",

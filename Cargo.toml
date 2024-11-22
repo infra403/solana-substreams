@@ -15,7 +15,7 @@ edition = "2021"
 [workspace.dependencies]
 substreams = "^0.5.0"
 substreams-solana = { git = "https://github.com/streamingfast/substreams-solana", branch = "master" }
-substreams-solana-utils = { git = "https://github.com/infra403/substreams-solana-utils", rev = "c4de15f7605bf747bc98ea785f5aa08924d5f914"}
+substreams-solana-utils = { git = "https://github.com/infra403/substreams-solana-utils", rev = "c2e40b8e16328eef5735d8ddadce923156d646aa"}
 prost = "0.11"
 bs58 = "0.5.0"
 borsh = { version = "1.5.1", features = ["derive"] }
