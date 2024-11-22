@@ -232,9 +232,20 @@ fn _parse_sell_instruction(
 
     let direction = "sol".to_string();
 
-    let token_transfer_instruction = instruction.inner_instructions().iter().find(|x| x.program_id() == TOKEN_PROGRAM_ID).unwrap().clone();
-    let token_transfer = spl_token_substream::parse_transfer_instruction(token_transfer_instruction.as_ref(), context).map_err(|e| anyhow!(e))?;
-    let user_token_pre_balance = token_transfer.source.unwrap().pre_balance;
+    let token_transfer_instruction = instruction.inner_instructions()
+        .iter()
+        .find(|x| x.program_id() == TOKEN_PROGRAM_ID)
+        .ok_or_else(|| anyhow!("No instruction with program_id == TOKEN_PROGRAM_ID found"))?
+        .clone();
+
+    let token_transfer = spl_token_substream::parse_transfer_instruction(token_transfer_instruction.as_ref(), context)
+        .map_err(|e| anyhow!(e))?;
+
+    let user_token_pre_balance = token_transfer
+        .source
+        .ok_or_else(|| anyhow!("Source account not found in token transfer"))?
+        .pre_balance;
+
 
     Ok(SwapEvent {
         user,
